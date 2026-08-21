@@ -1,7 +1,7 @@
 import Header from "../../components/Header";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiTrash2 } from "react-icons/fi";
 import { useEffect, useState } from "react";
-import { fetchAllReviews } from "../../services/review";
+import { fetchAllReviews, deleteReview } from "../../services/review";
 import { getAllTrips } from "../../services/trip";
 import { formatDate } from "../../lib/utils";
 
@@ -59,6 +59,18 @@ const ReviewsPage = () => {
 
   const handlePageClick = (pageNumber: number) => {
     setPage(pageNumber);
+  };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    if (window.confirm("Are you sure you want to delete this review?")) {
+      try {
+        await deleteReview(reviewId);
+        setReviews(reviews.filter((review) => review.id !== reviewId));
+      } catch (err) {
+        console.error("Failed to delete review:", err);
+        alert("Failed to delete review.");
+      }
+    }
   };
 
   const renderPaginationButtons = () => {
@@ -189,6 +201,9 @@ const ReviewsPage = () => {
                     <th className="py-4 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                       Created Date
                     </th>
+                    <th className="py-4 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -227,6 +242,15 @@ const ReviewsPage = () => {
                       </td>
                       <td className="py-4 px-4 text-sm text-gray-600">
                         {formatDate(review.createdAt)}
+                      </td>
+                      <td className="py-4 px-4 text-sm text-right">
+                        <button
+                          onClick={() => handleDeleteReview(review.id)}
+                          className="text-red-500 hover:text-red-700 transition-colors p-1.5 rounded-lg hover:bg-red-50 inline-flex items-center"
+                          title="Delete Review"
+                        >
+                          <FiTrash2 size={16} />
+                        </button>
                       </td>
                     </tr>
                   ))}
