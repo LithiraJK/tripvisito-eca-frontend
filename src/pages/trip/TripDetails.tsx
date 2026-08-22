@@ -496,7 +496,7 @@ const TripDetails = () => {
                 : `Pay / Book Trip (${estimatedPrice})`
             }
             onClick={handlePayment}
-            disabled={isProcessing || isAdmin}
+            disabled={isProcessing}
             variant="primary"
             className="md:w-full cursor-pointer"
           />

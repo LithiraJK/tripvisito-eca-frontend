@@ -23,7 +23,7 @@ export interface Country {
   };
   flags?: {
     png: string;
-    svg: string;
+    svg?: string;
   };
 }
 
@@ -174,7 +174,7 @@ export const CreateTrip = () => {
     };
 
     // Schedule step transitions based on cumulative durations
-    const timers: NodeJS.Timeout[] = [];
+    const timers: any[] = [];
     let cumulativeDelay = 0;
     for (let i = 1; i < GENERATION_STEPS.length; i++) {
       cumulativeDelay += GENERATION_STEPS[i - 1].duration;

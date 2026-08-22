@@ -6,11 +6,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-/**
- * Endpoints that do NOT require an Authorization header.
- * Uses startsWith matching — any URL beginning with these prefixes is public.
- */
-const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/trip/all", "/trip/"];
+
 
 /**
  * Checks whether a request URL is a public (no-auth) endpoint.

@@ -100,17 +100,7 @@ const UpdateTrip = () => {
             ? JSON.parse(trip.tripDetails)
             : trip?.tripDetails;
 
-        // Helper function to capitalize first letter of each word
-        const capitalizeWords = (str: string) => {
-          if (!str || typeof str !== "string") return "";
-          return str
-            .split("-")
-            .map(
-              (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-            )
-            .join("-");
-        };
+
 
         const getInterestStr = (interestsVal: any) => {
           if (Array.isArray(interestsVal)) {

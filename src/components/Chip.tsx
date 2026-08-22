@@ -20,9 +20,9 @@ const Chip = ({ label, variant = "default", className }: ChipProps) => {
     default: "bg-gray-100 text-gray-700 border-gray-200",
   };
 
-  // Check if it has more than one word (using spaces, underscores, or hyphens as separators)
-  const words = label.trim().split(/[\s+_-]+/);
-  const displayLabel = words.length > 1 ? `${words[0]}...` : label;
+  const safeLabel = String(label || "").trim();
+  const words = safeLabel.split(/[\s+_-]+/);
+  const displayLabel = words.length > 1 && words[0] ? `${words[0]}...` : safeLabel;
 
   return (
     <span 
