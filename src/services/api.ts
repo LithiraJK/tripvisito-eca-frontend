@@ -6,17 +6,46 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/trip"];
+/**
+ * Endpoints that do NOT require an Authorization header.
+ * Uses startsWith matching — any URL beginning with these prefixes is public.
+ */
+const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/trip/all", "/trip/"];
+
+/**
+ * Checks whether a request URL is a public (no-auth) endpoint.
+ * Read-only trip routes (GET /trip/all, GET /trip/:id) are public.
+ * Write routes (POST /trip/generate-trip, PUT /trip/edit) are NOT public.
+ */
+const isPublicEndpoint = (url: string | undefined, method: string | undefined): boolean => {
+  if (!url) return false;
+  const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
+  const normalizedMethod = (method || "get").toLowerCase();
+
+  // Auth endpoints are always public
+  if (normalizedUrl.startsWith("/auth/login") || normalizedUrl.startsWith("/auth/register")) {
+    return true;
+  }
+
+  // Trip endpoints: only GET requests to browse/view are public
+  if (normalizedUrl.startsWith("/trip/")) {
+    // These write endpoints always need auth
+    const authRequired = ["/trip/generate", "/trip/edit", "/trip/delete", "/trip/user-trips"];
+    if (authRequired.some((path) => normalizedUrl.startsWith(path))) {
+      return false;
+    }
+    // GET-only public access for /trip/all and /trip/:id
+    return normalizedMethod === "get";
+  }
+
+  return false;
+};
 
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
-    // Check if the URL exactly matches or starts with public endpoints (but not sub-paths)
-    const isPublic = PUBLIC_ENDPOINTS.some((url) => {
-      const requestUrl = config.url || '';
-      return requestUrl === url || requestUrl === url.slice(1); // Remove leading slash
-    });
+    const isPublic = isPublicEndpoint(config.url, config.method);
 
     if (!isPublic && token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -32,10 +61,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest: any = error.config;
 
-    const isProtected = !PUBLIC_ENDPOINTS.some((url) => {
-      const requestUrl = originalRequest.url || '';
-      return requestUrl === url || requestUrl === url.slice(1) || requestUrl.startsWith(url);
-    });
+    const isProtected = !isPublicEndpoint(originalRequest?.url, originalRequest?.method);
 
     if (
       error.response?.status === 401 &&
@@ -68,7 +94,7 @@ api.interceptors.response.use(
         console.log("✅ Token refresh successful");
 
         // Retry original request with new access token
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
         console.log("🔄 Retrying original request...");
         return api(originalRequest);
       } catch (refreshErr) {

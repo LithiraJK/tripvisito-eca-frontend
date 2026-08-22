@@ -3,12 +3,14 @@ import {
   FiTrash2,
   FiChevronLeft,
   FiChevronRight,
+  FiEdit2,
 } from "react-icons/fi";
 import Chip from "../../components/Chip";
 import { useEffect, useState } from "react";
 import { deleteUser, getAllUsers, updateUserStatus } from "../../services/auth";
 import { formatDate } from "../../lib/utils";
 import { FaPlus } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -16,6 +18,7 @@ const MySwal = withReactContent(Swal);
 
 
 const AllUsers = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -326,7 +329,13 @@ const AllUsers = () => {
                             />
                           </button>
                         </td>
-                        <td className="py-4 px-4 text-right">
+                        <td className="py-4 px-4 text-right flex justify-end gap-3.5">
+                          <button
+                            className="text-gray-400 hover:text-blue-500 transition-colors"
+                            onClick={() => navigate(`/admin/user/edit/${userId}`, { state: { editUser: user } })}
+                          >
+                            <FiEdit2 size={18} />
+                          </button>
                           <button className="text-gray-400 hover:text-red-500 transition-colors" onClick={() => {handleUserDelete(userId)}}>
                             <FiTrash2 size={18} />
                           </button>

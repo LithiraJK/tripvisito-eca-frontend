@@ -8,6 +8,7 @@ import TravelLoader from "../components/TravelLoader";
 const TripDetails = lazy(() => import("../pages/trip/TripDetails"));
 const LandingLayout = lazy(() => import("../pages/LandingLayout"));
 const CreateUser = lazy(() => import("../pages/admin/CreateUser"));
+const EditUser = lazy(() => import("../pages/admin/EditUser"));
 const UpdateTrip = lazy(() => import("../pages/trip/UpdateTrip"));
 const ThankyouMessage = lazy(() => import("../components/ThankyouMessage"));
 
@@ -114,6 +115,7 @@ const Router = () => {
             <Route path="/admin/payments" element={<PaymentsPage />} />
             <Route path="/admin/reviews" element={<ReviewsPage />} />
             <Route path="/admin/user/create" element={<CreateUser />} />
+            <Route path="/admin/user/edit/:userId" element={<EditUser />} />
           </Route>
           <Route
             element={

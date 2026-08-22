@@ -7,6 +7,7 @@ import { MdAdd, MdDelete } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
 import { deleteTrip, getTripDetails, updateTrip } from "../../services/trip";
 import toast from "react-hot-toast";
+import { budgetOptions, groupTypes, interests, travelStyles } from "../../constants";
 
 interface Activity {
   time: "Morning" | "Afternoon" | "Evening";
@@ -111,16 +112,26 @@ const UpdateTrip = () => {
             .join("-");
         };
 
+        const getInterestStr = (interestsVal: any) => {
+          if (Array.isArray(interestsVal)) {
+            return interestsVal[0] || "";
+          }
+          if (typeof interestsVal === "string") {
+            return interestsVal;
+          }
+          return "";
+        };
+
         setFormData({
           name: tripDetails.name || "",
           description: tripDetails.description || "",
           estimatedPrice: tripDetails.estimatedPrice || "",
           duration: tripDetails.duration || 5,
-          budget: capitalizeWords(tripDetails.budget || ""),
-          travelStyle: capitalizeWords(tripDetails.travelStyle || ""),
+          budget: (tripDetails.budget || "").toLowerCase(),
+          travelStyle: (tripDetails.travelStyle || "").toLowerCase(),
           country: tripDetails.country || "",
-          interests: capitalizeWords(tripDetails.interests || ""),
-          groupType: capitalizeWords(tripDetails.groupType || ""),
+          interests: getInterestStr(tripDetails.interests).toLowerCase(),
+          groupType: (tripDetails.groupType || "").toLowerCase(),
         });
 
         if (tripDetails.itinerary && tripDetails.itinerary.length > 0) {
@@ -305,7 +316,7 @@ const UpdateTrip = () => {
         budget: formData.budget,
         travelStyle: formData.travelStyle,
         country: formData.country,
-        interests: formData.interests,
+        interests: formData.interests ? [formData.interests] : [], // Backend expects List<String>
         groupType: formData.groupType,
         itinerary: itinerary,
         bestTimeToVisit: bestTimeToVisit.filter((item) => item.trim() !== ""),
@@ -471,7 +482,7 @@ const UpdateTrip = () => {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2.5">
+                 <div className="flex flex-col gap-2.5">
                   <label
                     className="text-sm font-normal text-gray-400"
                     htmlFor="budget"
@@ -479,11 +490,7 @@ const UpdateTrip = () => {
                     Budget
                   </label>
                   <ComboBox
-                    options={[
-                      { value: "Budget", label: "Budget" },
-                      { value: "Mid-Range", label: "Mid-Range" },
-                      { value: "Luxury", label: "Luxury" },
-                    ]}
+                    options={budgetOptions}
                     value={formData.budget}
                     onChange={(value) => handleChange("budget", value)}
                     placeholder="Select budget..."
@@ -498,12 +505,7 @@ const UpdateTrip = () => {
                     Group Type
                   </label>
                   <ComboBox
-                    options={[
-                      { value: "Solo", label: "Solo" },
-                      { value: "Couple", label: "Couple" },
-                      { value: "Family", label: "Family" },
-                      { value: "Friends", label: "Friends" },
-                    ]}
+                    options={groupTypes}
                     value={formData.groupType}
                     onChange={(value) => handleChange("groupType", value)}
                     placeholder="Select group..."
@@ -521,12 +523,7 @@ const UpdateTrip = () => {
                     Travel Style
                   </label>
                   <ComboBox
-                    options={[
-                      { value: "Adventure", label: "Adventure" },
-                      { value: "Relaxation", label: "Relaxation" },
-                      { value: "Cultural", label: "Cultural" },
-                      { value: "Romantic", label: "Romantic" },
-                    ]}
+                    options={travelStyles}
                     value={formData.travelStyle}
                     onChange={(value) => handleChange("travelStyle", value)}
                     placeholder="Select style..."
@@ -541,12 +538,7 @@ const UpdateTrip = () => {
                     Interests
                   </label>
                   <ComboBox
-                    options={[
-                      { value: "Nature", label: "Nature" },
-                      { value: "History", label: "History" },
-                      { value: "Food", label: "Food" },
-                      { value: "Art", label: "Art" },
-                    ]}
+                    options={interests}
                     value={formData.interests}
                     onChange={(value) => handleChange("interests", value)}
                     placeholder="Select interests..."
@@ -842,19 +834,25 @@ const UpdateTrip = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex gap-4 mt-4">
+              <div className="flex flex-wrap gap-4 mt-4 w-full">
                 <Button
                   type="submit"
                   ctaText="Save Trip"
                   variant="primary"
-                  fullWidth={true}
+                  className="flex-1 min-w-[150px]"
+                />
+                <Button
+                  type="button"
+                  ctaText="Cancel"
+                  variant="secondary"
+                  className="px-8"
+                  onClick={() => navigate(-1)}
                 />
                 <Button
                   type="button"
                   ctaText="Delete"
                   icon={<MdDelete />}
                   variant="danger"
-                  fullWidth={false}
                   className="px-8"
                   onClick={() => {
                     handleDelete();

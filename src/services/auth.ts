@@ -64,3 +64,12 @@ export const updateProfile = async (name: string, profileimg?: File) => {
   });
   return res.data;
 };
+
+export const editUserDetails = async (userId: string, formData: FormData) => {
+  const res = await api.put(`/auth/users/edit/${userId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return res.data;
+};
