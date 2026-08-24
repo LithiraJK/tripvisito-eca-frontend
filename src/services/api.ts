@@ -2,8 +2,16 @@ import axios, { AxiosError } from "axios";
 import { refreshTokens } from "./auth";
 import toast from "react-hot-toast";
 
+const getBaseUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (!envUrl || envUrl.includes("placeholder")) {
+    return "http://8.232.84.60:8080";
+  }
+  return envUrl;
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: getBaseUrl(),
 });
 
 
