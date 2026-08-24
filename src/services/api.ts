@@ -2,16 +2,13 @@ import axios, { AxiosError } from "axios";
 import { refreshTokens } from "./auth";
 import toast from "react-hot-toast";
 
-const getBaseUrl = (): string => {
-  const envUrl = import.meta.env.VITE_API_BASE_URL;
-  if (!envUrl || envUrl.includes("placeholder")) {
-    return "http://8.232.84.60:8080";
-  }
-  return envUrl;
-};
+const BASE_URL = import.meta.env.VITE_API_BASE_URL && !import.meta.env.VITE_API_BASE_URL.includes("placeholder")
+  ? import.meta.env.VITE_API_BASE_URL
+  : "http://8.232.84.60:8080";
 
-const api = axios.create({
-  baseURL: getBaseUrl(),
+export const api = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
 });
 
 

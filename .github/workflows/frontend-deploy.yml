@@ -46,10 +46,9 @@ jobs:
         run: npm ci
 
       # ── 4. Build production bundle ────────────────────────────────────────
-      - name: Build React app (Vite)
+      - name: Build React App
         env:
-          # Injected at build time so the bundle points to the right backend
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_API_BASE_URL: "http://8.232.84.60:8080"
         run: npm run build
 
       - name: Show build output
