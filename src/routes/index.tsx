@@ -1,6 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { useAuth } from "../contexts/authContext";
 import { Toaster } from "react-hot-toast";
 import { CreateTrip } from "../pages/trip/CreateTrip";
 import TravelLoader from "../components/TravelLoader";
@@ -30,7 +29,7 @@ type RequiredAuthTypes = {
   roles?: string[];
 };
 
-const RequireAuth = ({ children, roles }: RequiredAuthTypes) => {
+const RequireAuth = ({ children }: RequiredAuthTypes) => {
   return <>{children}</>;
 };
 const Router = () => {
