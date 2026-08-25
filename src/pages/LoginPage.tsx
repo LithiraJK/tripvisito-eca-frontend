@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import React, { useState } from "react";
 import { login } from "../services/auth";
 import { useAuth } from "../contexts/authContext";
@@ -12,6 +13,7 @@ import logo from "../assets/icons/logo.svg";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -137,9 +139,25 @@ const LoginPage = () => {
                         <label className="text-sm font-medium text-gray-700 block mb-1">Email Address</label>
                         <input type="text" value={email} className="text-xs xs:text-sm py-2 px-3 xs:px-4 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
                       </div>
-                      <div className="relative">
+                      <div>
                         <label className="text-sm font-medium text-gray-700 block mb-1">Password</label>
-                        <input type="password" value={password} className="text-xs xs:text-sm py-2 px-3 xs:px-4 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                        <div className="relative">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            className="text-xs xs:text-sm py-2 px-3 xs:px-4 pr-12 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center text-gray-500 hover:text-gray-700 cursor-pointer focus:outline-none z-10"
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                          >
+                            {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+                          </button>
+                        </div>
                       </div>
                       <div className="relative pt-1 sm:pt-2">
                         <button onClick={handleLogin} className="w-full bg-linear-to-r from-cyan-400 to-sky-500 text-white text-sm sm:text-base font-semibold rounded-lg px-4 py-2 hover:opacity-90 transition-all cursor-pointer">Login</button>

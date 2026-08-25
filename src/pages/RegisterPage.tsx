@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import { register } from "../services/auth";
 import { toast } from "react-hot-toast";
@@ -13,6 +14,7 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { setUser } = useAuth();
 
   const navigate = useNavigate();
@@ -221,20 +223,30 @@ const RegisterPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
-                        <div className="relative">
+                        <div>
                           <label
                             htmlFor="password"
                             className="text-sm font-medium text-gray-700 block mb-1"
                           >
                             Password
                           </label>
-                          <input
-                            id="password"
-                            type="password"
-                            className="text-xs xs:text-sm py-2 px-3 xs:px-4 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                            placeholder="Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                          />
+                          <div className="relative">
+                            <input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              className="text-xs xs:text-sm py-2 px-3 xs:px-4 pr-12 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                              placeholder="Password"
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center text-gray-500 hover:text-gray-700 cursor-pointer focus:outline-none z-10"
+                              aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                              {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+                            </button>
+                          </div>
                         </div>
                         <div className="relative pt-1 sm:pt-2">
                           <button
