@@ -3,30 +3,33 @@ import { getMyDetails } from "../services/auth";
 
 const AuthContext = createContext<any>(null);
 
+const DUMMY_USER = {
+  id: 3,
+  email: "john@tripvisito.com",
+  name: "John Doe",
+  roles: ["USER", "ADMIN", "SUPERADMIN"],
+  profileImg: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  profileimg: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+};
+
 export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(DUMMY_USER);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
+      setLoading(true);
       getMyDetails()
         .then((res) => {
           if (res.data) setUser(res.data);
-          else setUser(null);
         })
         .catch((err) => {
           console.error(err);
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          setUser(null);
         })
         .finally(() => {
           setLoading(false);
         });
-    } else {
-      setUser(null);
-      setLoading(false);
     }
   }, []); // Run only once on mount
 
