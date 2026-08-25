@@ -225,7 +225,7 @@ const ReviewsPage = () => {
                           {review.userName}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-sm text-blue-600 font-medium">
+                      <td className="py-4 px-4 text-sm text-gray-600 font-medium">
                         {getTripName(review.tripId)}
                       </td>
                       <td className="py-4 px-4">

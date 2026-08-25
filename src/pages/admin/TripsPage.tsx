@@ -170,7 +170,7 @@ const TripsPage = () => {
         title="Trips"
         description="Manage all trips here"
         ctaText="Create a Trip"
-        ctaURL="/admin/trip/create"
+        ctaURL="/admin/trips?create=true"
         icon={<FaPlus />}
       />
       <section>
@@ -271,7 +271,7 @@ const TripsPage = () => {
                               <FiEye size={16} />
                             </Link>
                             <Link
-                              to={`/admin/trip/edit/${trip.id}`}
+                              to={`/admin/trips?edit=${trip.id}`}
                               className="p-2 text-gray-400 hover:text-green-600 transition-colors"
                               title="Edit Trip"
                             >

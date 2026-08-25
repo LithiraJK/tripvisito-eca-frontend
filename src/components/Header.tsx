@@ -8,9 +8,10 @@ interface Props {
   description: string;
   ctaText?: string;
   ctaURL?: string;
+  ctaOnClick?: () => void;
   icon?: React.ReactNode;
 }
-const Header = ({ title, description, ctaText , ctaURL, icon }: Props) => {
+const Header = ({ title, description, ctaText , ctaURL, ctaOnClick, icon }: Props) => {
 
   {/* Track location for dynamic styling Header using useLocation hook */}
   const location = useLocation()
@@ -27,16 +28,20 @@ const Header = ({ title, description, ctaText , ctaURL, icon }: Props) => {
         <p className={ cn("text-gray-600 mb-4" , location.pathname === '/' ? 'text-lg md:text-xl' : 'text-sm md:text-base' ) }>{description}</p>
       </motion.article> 
 
-      {ctaText && ctaURL && icon && (
+      {ctaText && icon && (ctaURL || ctaOnClick) && (
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={scrollRevealViewport}
           variants={slideInRightVariants}
         >
-          <Link to={ctaURL}>
-            <button className="bg-blue-500 w-full md:w-60 text-white p-2 font-semibold rounded-lg flex items-center justify-center gap-1.5 shadow-none">{icon}{ctaText}</button>
-          </Link>
+          {ctaURL ? (
+            <Link to={ctaURL}>
+              <button className="bg-blue-500 w-full md:w-60 text-white p-2 font-semibold rounded-lg flex items-center justify-center gap-1.5 shadow-none">{icon}{ctaText}</button>
+            </Link>
+          ) : (
+            <button onClick={ctaOnClick} className="bg-blue-500 w-full md:w-60 text-white p-2 font-semibold rounded-lg flex items-center justify-center gap-1.5 shadow-none">{icon}{ctaText}</button>
+          )}
         </motion.div>
       )}
 

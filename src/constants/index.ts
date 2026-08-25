@@ -19,7 +19,7 @@ export const sidebarItems = [
   {
     id: 3,
     icon: FaRegMap,
-    label: "AI Trips",
+    label: "All Trips",
     href: "admin/trips",
   },
   {

@@ -192,7 +192,7 @@
           title={`Welcome, ${user?.name ?? "Guest"} 👋`}
           description="Track activity, trends and popular destinations"
           ctaText="Create a trip"
-          ctaURL="/admin/trip/create"
+          ctaURL="/admin/trips?create=true"
           icon={<FaPlus />}
         />
 
