@@ -4,12 +4,14 @@ import { getMyDetails } from "../services/auth";
 const AuthContext = createContext<any>(null);
 
 const DUMMY_USER = {
-  id: 3,
-  email: "john@tripvisito.com",
-  name: "John Doe",
-  roles: ["USER", "ADMIN", "SUPERADMIN"],
-  profileImg: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  profileimg: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+  id: 1,
+  name: "Super Admin",
+  email: "admin@tripvisito.com",
+  role: "ADMIN",
+  roles: ["ROLE_ADMIN", "ROLE_SUPERADMIN", "ROLE_USER"],
+  isAuthenticated: true,
+  profileImg: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  profileimg: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
 };
 
 export const AuthProvider = ({ children }: any) => {

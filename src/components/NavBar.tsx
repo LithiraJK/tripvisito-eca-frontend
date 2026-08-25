@@ -78,6 +78,7 @@ const NavBar = () => {
           <a href="/#home" className={`${location.pathname === '/' ? 'text-gray-100 hover:text-white' : 'text-gray-700 hover:text-blue-600'} font-medium transition-colors`}>Home</a>
           <a href="/#trips" className={`${location.pathname === '/' ? 'text-gray-100 hover:text-white' : 'text-gray-700 hover:text-blue-600'} font-medium transition-colors`}>Trips</a>
           <a href="/#reviews" className={`${location.pathname === '/' ? 'text-gray-100 hover:text-white' : 'text-gray-700 hover:text-blue-600'} font-medium transition-colors`}>Reviews</a>
+          <Link to="/admin/trips" className={`${location.pathname === '/' ? 'text-gray-100 hover:text-white' : 'text-gray-700 hover:text-blue-600'} font-medium transition-colors`}>Manage Trips</Link>
         </div>
 
         {user ? (
@@ -184,6 +185,7 @@ const NavBar = () => {
             <a href="/#home" onClick={closeSidebar} className="text-gray-700 font-semibold hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50/50">Home</a>
             <a href="/#trips" onClick={closeSidebar} className="text-gray-700 font-semibold hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50/50">Trips</a>
             <a href="/#reviews" onClick={closeSidebar} className="text-gray-700 font-semibold hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50/50">Reviews</a>
+            <Link to="/admin/trips" onClick={closeSidebar} className="text-gray-700 font-semibold hover:text-blue-600 transition-colors p-2 rounded-xl hover:bg-blue-50/50">Manage Trips</Link>
             {user ? (
               <div className='flex items-center gap-2.5 pb-8 mt-auto p-4 border-t border-gray-200'>
                   <img src={user?.profileimg || user?.profileImg || '/default-avatar.png'} alt={user?.name || 'User'} className='size-10 rounded-full shrink-0 border border-gray-200/50 shadow-xs' />

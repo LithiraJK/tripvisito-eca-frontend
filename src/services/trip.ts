@@ -105,3 +105,23 @@ export const deleteTrip = async (tripId: string) => {
     throw new Error(message);
   }
 };
+
+export const createTripDirect = async (tripRequest: any) => {
+  try {
+    const res = await api.post("/trip", tripRequest);
+    return res.data;
+  } catch (error) {
+    const message = extractErrorMessage(error, "Failed to create trip.");
+    throw new Error(message);
+  }
+};
+
+export const updateTripDirect = async (tripId: string, tripRequest: any) => {
+  try {
+    const res = await api.put(`/trip/${tripId}`, tripRequest);
+    return res.data;
+  } catch (error) {
+    const message = extractErrorMessage(error, "Failed to update trip.");
+    throw new Error(message);
+  }
+};
